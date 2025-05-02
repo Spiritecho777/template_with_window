@@ -4,11 +4,12 @@ use basewindow::BaseWindow;
 use eframe::egui::Context;
 use eframe::{egui,App,Frame,};
 
-// Window
+// Gestion de la fenêtre
 pub struct Application {
     window_mod: BaseWindow
 }
 
+// Ajout des contrôle 
 impl Application {
     pub fn new() -> Self {
         let mut window_mod = BaseWindow::new();
@@ -24,11 +25,12 @@ impl App for Application {
         self.window_mod.render(ctx);
     }
 }
+//fin gestion
 
 fn main() -> Result<(), eframe::Error> {
     let options = eframe::NativeOptions::default();
     eframe::run_native(
-        "Test", // Titre de la fenetre
+        "", // Titre de la fenetre
         options,
         Box::new(|_cc| Ok(Box::new(Application::new())))
     );
