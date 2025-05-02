@@ -11,8 +11,8 @@
     </cargoProject>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="504d15f4-6859-4067-afdf-30bb0913d99b" name="Changes" comment="tezst">
-      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
+    <list default="true" id="504d15f4-6859-4067-afdf-30bb0913d99b" name="Changes" comment="màj">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,12 +61,13 @@
     "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
     "org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon": "",
     "org.rust.first.attach.projects": "true",
-    "settings.editor.selected.configurable": "Shelf.Project.Settings",
+    "settings.editor.selected.configurable": "rsyncConfigurable",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Shell Script.Github_Creation">
+  <component name="RunManager" selected="Cargo.Run">
     <configuration name="Run" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
+      <option name="buildProfileId" value="dev" />
       <option name="command" value="run --package template_with_window --bin template_with_window" />
       <option name="workingDirectory" value="file://$PROJECT_DIR$" />
       <envs />
@@ -147,6 +148,8 @@
       <workItem from="1746188642337" duration="228000" />
       <workItem from="1746188879130" duration="1844000" />
       <workItem from="1746191463591" duration="2265000" />
+      <workItem from="1746193873116" duration="893000" />
+      <workItem from="1746194781279" duration="453000" />
     </task>
     <task id="LOCAL-00001" summary="tezst">
       <option name="closed" value="true" />
@@ -156,7 +159,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746189913813</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="màj">
+      <option name="closed" value="true" />
+      <created>1746194328770</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1746194328770</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -175,6 +186,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="tezst" />
-    <option name="LAST_COMMIT_MESSAGE" value="tezst" />
+    <MESSAGE value="màj" />
+    <option name="LAST_COMMIT_MESSAGE" value="màj" />
   </component>
 </project>
