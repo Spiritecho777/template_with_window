@@ -2,7 +2,7 @@
 name = "Run"
 type = "CargoCommandRunConfiguration"
 build_profile = "dev"
-command = "run
+command = "run"
 working_directory = "$PROJECT_DIR$"
 emulate_terminal = true
 channel = "DEFAULT"
