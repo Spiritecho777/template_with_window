@@ -1,16 +1,1 @@
-[compile_to_linux]
-name = "Compile_to_linux"
-type = "ShConfigurationType"
-script_path = "$PROJECT_DIR$/Script/Compile_To_Linux.ps1"
-#interpreter_path = "$PROJECT_DIR$/../../../../../../../WINDOWS/System32/WindowsPowerShell/v1.0/powershell.exe"
-execute_in_terminal = true
-execute_script_file = true
-
-[github_creation]
-name = "Github_Creation"
-type = "ShConfigurationType"
-script_path = "$PROJECT_DIR$/Script/Connect_GitHub.sh"
-#interpreter_path = "$PROJECT_DIR$/../../../../../../../WINDOWS/System32/WindowsPowerShell/v1.0/powershell.exe"
-execute_in_terminal = true
-execute_script_file = true
 
