@@ -2,9 +2,12 @@ mod basewindow;
 
 use basewindow::BaseWindow;
 use eframe::{egui,egui::{ViewportBuilder,Context},App,Frame,NativeOptions,};
-use std::{rc::Rc,cell::RefCell,sync::Arc};
+use std::{rc::Rc,cell::RefCell,};
 use eframe::egui::Color32;
 use image::GenericImageView;
+
+#[cfg(target_os = "windows")]
+use std::{sync::Arc};
 
 /// Gestion de la fenêtre
 pub struct Application {
@@ -87,25 +90,37 @@ impl App for Application {
 }
 
 fn main() -> Result<(), eframe::Error> {
-    let image = image::open("assets/icon.png").expect("Could not load image");
-    let (width, height) = image.dimensions();
-    let rgba = image.into_rgba8().into_raw();
+    let options= {
+        #[cfg(target_os = "windows")]
+        {
+            let image = image::open("assets/icon.png").expect("Could not load image");
+            let (width, height) = image.dimensions();
+            let rgba = image.into_rgba8().into_raw();
 
-    let icon = Arc::new(egui::IconData {
-        rgba,
-        width,
-        height,
-    });
+            let icon = Arc::new(egui::IconData {
+                rgba,
+                width,
+                height,
+            });
 
-    let options = NativeOptions {
-        
-        viewport: ViewportBuilder::default()
-            .with_inner_size([800.0, 600.0]) // Taille de la fenetre
-            .with_icon(icon),
-        ..Default::default()
+            NativeOptions {
+                viewport: ViewportBuilder::default()
+                    .with_inner_size([800.0, 600.0]) // Taille de la fenetre
+                    .with_icon(icon),
+                ..Default::default()
+            }
+        }
+
+        #[cfg(target_os = "linux")]
+        {
+            NativeOptions {
+                viewport: ViewportBuilder::default()
+                    .with_inner_size([800.0, 600.0]), // Taille de la fenetre
+                ..Default::default()
+            }
+        }
     };
-
-
+    
     eframe::run_native(
         "", // Titre de la fenetre
         options,
