@@ -7,7 +7,7 @@ use eframe::{egui,egui::{ViewportBuilder,Context,Color32},App,Frame,NativeOption
 use std::{rc::Rc,cell::RefCell,};
 use image::GenericImageView;
 
-#[cfg(target_os = "windows")]
+//#[cfg(target_os = "windows")]
 use std::{sync::Arc};
 
 /// Gestion de la fenêtre
@@ -92,18 +92,18 @@ impl App for Application {
 
 fn main() -> Result<(), eframe::Error> {
     let options= {
-        #[cfg(target_os = "windows")]
+        //#[cfg(target_os = "windows")]
         {
             let image_bytes = include_bytes!("../assets/icon.png");
             let image = image::load_from_memory(image_bytes).expect("Could not load image");
             let (width, height) = image.dimensions();
             let rgba = image.into_rgba8().into_raw();
 
-            let icon = Arc::new(egui::IconData {
+            let icon = egui::IconData {
                 rgba,
                 width,
                 height,
-            });
+            };
 
             NativeOptions {
                 viewport: ViewportBuilder::default()
@@ -113,18 +113,18 @@ fn main() -> Result<(), eframe::Error> {
             }
         }
 
-        #[cfg(target_os = "linux")]
+        /*#[cfg(target_os = "linux")]
         {
             NativeOptions {
                 viewport: ViewportBuilder::default()
                     .with_inner_size([800.0, 600.0]), // Taille de la fenetre
                 ..Default::default()
             }
-        }
+        }*/
     };
     
     eframe::run_native(
-        "", // Titre de la fenetre
+        "Test", // Titre de la fenetre
         options,
         Box::new(|_cc| Ok(Box::new(Application::new())))
     )?;
