@@ -93,7 +93,8 @@ fn main() -> Result<(), eframe::Error> {
     let options= {
         #[cfg(target_os = "windows")]
         {
-            let image = image::open("assets/icon.png").expect("Could not load image");
+            let image_bytes = include_bytes!("../assets/icon.png");
+            let image = image::load_from_memory(image_bytes).expect("Could not load image");
             let (width, height) = image.dimensions();
             let rgba = image.into_rgba8().into_raw();
 
