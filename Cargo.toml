@@ -6,8 +6,3 @@ edition = "2024"
 [dependencies]
 eframe = {version = "0.31.1",features = ["default"]}
 image = {version = "0.25.6"}
-
-[[bin]]
-name = "template_with_window"
-path = "src/main.rs"
-windows_subsystem = "windows"

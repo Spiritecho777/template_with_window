@@ -1,9 +1,10 @@
+#![cfg_attr(windows, windows_subsystem = "windows")] //Pour supprimer l'affichage de la console sur windows
+
 mod basewindow;
 
 use basewindow::BaseWindow;
-use eframe::{egui,egui::{ViewportBuilder,Context},App,Frame,NativeOptions,};
+use eframe::{egui,egui::{ViewportBuilder,Context,Color32},App,Frame,NativeOptions,};
 use std::{rc::Rc,cell::RefCell,};
-use eframe::egui::Color32;
 use image::GenericImageView;
 
 #[cfg(target_os = "windows")]
