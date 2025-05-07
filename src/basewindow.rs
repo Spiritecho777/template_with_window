@@ -1,6 +1,5 @@
-use eframe::{egui,egui::{Context, CentralPanel, Ui, Slider, ComboBox, Button, Color32, Stroke, ProgressBar}};
-use std::rc::Rc;
-use std::cell::RefCell;
+use eframe::{egui,egui::{Context, CentralPanel, Ui, Slider, ComboBox, Button, Color32, Stroke, ProgressBar,ColorImage,TextureHandle,TextureOptions}};
+use std::{rc::Rc, cell::RefCell};
 
 pub type ComponentFn = Box<dyn FnMut(&Context, &mut Ui)>;
 
@@ -123,7 +122,7 @@ impl BaseWindow {
         }))
     }
     
-    // Barre de chargement
+    /// Barre de chargement
     pub fn add_loading_bar(&mut self,progress:Rc<RefCell<f32>>){
         self.components.push(Box::new(move |_ctx, ui| {
             let progress_value = *progress.borrow();
@@ -134,7 +133,85 @@ impl BaseWindow {
             );
         }))
     }
-    
+
+    /// Ajout d'image
+    pub fn add_image_viewer(&mut self,image_path: Rc<RefCell<String>>,texture:Rc<RefCell<Option<TextureHandle>>>,desired_width:u32,desired_height:u32){
+    //pub fn add_image_viewer(&mut self,image_path: Option<String>,texture:Rc<RefCell<Option<TextureHandle>>>,desired_width:u32,desired_height:u32){
+        self.components.push(Box::new(move |ctx, ui| {
+            if texture.borrow().is_none() {
+                let path = image_path.borrow().clone();
+                if let Ok(mut image) = image::open(&path) {
+                    image = image.resize(desired_width,desired_height,image::imageops::FilterType::Lanczos3);
+                    let image = image.to_rgba8();
+                    let (w,h) = image.dimensions();
+                    let pixels = image.as_flat_samples();
+                    let color_image = ColorImage::from_rgba_unmultiplied([w as usize,h as usize],pixels.as_slice());
+
+                    let new_texture = ctx.load_texture("dynamic_image",color_image,TextureOptions::LINEAR);
+                    *texture.borrow_mut() = Some(new_texture);
+                }else{
+                    ui.colored_label(Color32::RED, format!("Erreur : impossible de charger {}", path));
+                }
+            }
+            if let Some(tex) = &*texture.borrow() {
+                ui.image(tex);
+            } else {
+                ui.label("Aucune image à afficher");
+            }
+
+            /*if texture.borrow().is_none() {
+                let image_bytes: Vec<u8>;  // Contient soit les bytes de l'image par défaut, soit ceux d'une image personnalisée
+
+                // Si une image personnalisée est passée, on l'utilise. Sinon, on charge l'image par défaut du binaire
+                if let Some(image_path) = &image_path {
+                    // Charger l'image depuis le fichier passé en paramètre
+                    let path = std::path::Path::new(&image_path);
+                    match image::open(path) {
+                        Ok(img) => {
+                            image_bytes = img.to_rgba8().into_raw();
+                        }
+                        Err(_) => {
+                            ui.colored_label(egui::Color32::RED, "Erreur : impossible de charger l'image personnalisée.");
+                            return;
+                        }
+                    }
+                } else {
+                    // Intégration de l'image par défaut dans le binaire via `include_bytes!`
+                    image_bytes = include_bytes!("../assets/ressources/test.png").to_vec();
+                }
+
+                // Charge l'image depuis les bytes
+                let image = match image::load_from_memory(&image_bytes) {
+                    Ok(mut img) => {
+                        img = img.resize(desired_width, desired_height, image::imageops::FilterType::Lanczos3);
+                        img.to_rgba8()
+                    }
+                    Err(_) => {
+                        ui.colored_label(egui::Color32::RED, "Erreur : impossible de charger l'image.");
+                        return;
+                    }
+                };
+
+                // Créer la texture
+                let (w, h) = image.dimensions();
+                let pixels = image.as_flat_samples();
+                let color_image = ColorImage::from_rgba_unmultiplied([w as usize, h as usize], pixels.as_slice());
+                let new_texture = ctx.load_texture("dynamic_image", color_image, TextureOptions::LINEAR);
+                *texture.borrow_mut() = Some(new_texture);
+            }
+
+            // Affiche l'image
+            if let Some(tex) = &*texture.borrow() {
+                let size = egui::Vec2::new(desired_width as f32, desired_height as f32);
+                ui.allocate_space(size);
+                ui.image(tex);
+            } else {
+                ui.label("Aucune image à afficher");
+            }*/
+        }));
+    }
+
+    /// Personalisation ui
     fn apply_widget_style(visuals: &mut egui::Visuals, background: Color32, foreground: Color32, border: Color32) {
         use egui::Stroke;
 
