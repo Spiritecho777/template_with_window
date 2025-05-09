@@ -1,4 +1,4 @@
-use std::{cell::RefCell,rc::Rc,path::Path};
+use std::{cell::RefCell,rc::Rc};
 use eframe::{egui, egui::{Color32, Context,}, Frame};
 use crate::{basewindow::BaseWindow, windows::second_window::SecondWindow, app_manager::AppState};
 
@@ -18,20 +18,20 @@ impl FirstWindow{
 
         // Exemple : texte
         let text = Rc::new(RefCell::new(String::from("Hello")));
-        window_mod.add_label(text.clone());
+        window_mod.add_label(text.clone(),None);
 
         // Exemple : bouton
         window_mod.add_button("Click", || {
             println!("Le test du click");
-        });
+        },None);
 
         // Exemple : Checkbox
         let is_checked = Rc::new(RefCell::new(false));
-        window_mod.add_checkbox("Activer l'option", is_checked.clone());
+        window_mod.add_checkbox("Activer l'option", is_checked.clone(),None);
 
         // Exemple : Slider
         let slider = Rc::new(RefCell::new(50));
-        window_mod.add_slider("Volume", slider.clone(), 0..=100);
+        window_mod.add_slider("Volume", slider.clone(), 0..=100,None);
 
         // Exemple : ComboBox
         let selected_item = Rc::new(RefCell::new(String::from("Option 1")));
@@ -40,33 +40,27 @@ impl FirstWindow{
             Rc::new(String::from("Option 2")),
             Rc::new(String::from("Option 3")),
         ];
-        window_mod.add_combobox("Choisissez une option", selected_item.clone(), options);
+        window_mod.add_combobox("Choisissez une option", selected_item.clone(), options,None);
 
         // Exemple : Textbox
         let textbox_filler = Rc::new(RefCell::new(String::from("")));
-        window_mod.add_textbox(textbox_filler.clone());
+        window_mod.add_textbox(textbox_filler.clone(),None);
 
         // Exemple : LoadingBar
         let progress = Rc::new(RefCell::new(0.0));
-        window_mod.add_loading_bar(progress.clone()); // Voir dans update et dans struct
+        window_mod.add_loading_bar(progress.clone(),None); // Voir dans update et dans struct
 
         // Exemple : ajout d'image
-        let image_path = Rc::new(RefCell::new(String::from("assets/ressources/test.png".to_string()))); //ajout du chemin de l'image
-        /*let mut test = Path::new("../assets/ressources/test.png");
-        if let Ok(abs_path) = test.canonicalize() {
-            println!("{}", abs_path.display());
-        }
-        let image_path = Some(test.clone());*/
-        
+        let image_path:&[u8] = include_bytes!("../../assets/ressources/test.png"); //changer le chemin selon l'image voulu 
         let texture = Rc::new(RefCell::new(None));
-        window_mod.add_image_viewer(image_path.clone(), texture.clone(),200,200); //definir la taille de l'image
+        window_mod.add_image_viewer(image_path.clone(), texture.clone(),200,200,None); //definir la taille de l'image
 
         // Changement de page grâce a AppManager
         let switch_state = Rc::new(RefCell::new(None));
         let switch_state_clone = switch_state.clone();
         window_mod.add_button("Aller à la 2e fenêtre", move || {
             *switch_state_clone.borrow_mut() = Some(AppState::Second(SecondWindow::new()));
-        });
+        },None);
         
         Self {
             window_mod,

@@ -1,9 +1,10 @@
 use eframe::{egui::{Context}, App, Frame};
-use crate::windows::{first_window::FirstWindow, second_window::SecondWindow};
+use crate::windows::{first_window::FirstWindow, second_window::SecondWindow,positionnement::Positionnement,};
 
 pub enum AppState{
     First(FirstWindow),
     Second(SecondWindow),
+    Position(Positionnement)
 }
 
 pub struct AppManager{
@@ -27,6 +28,11 @@ impl App for AppManager {
                 }
             }
             AppState::Second(w) => {
+                if let Some(next_state) = w.update_with_switch(ctx, frame) {
+                    self.state = next_state;
+                }
+            }
+            AppState::Position(w) => {
                 if let Some(next_state) = w.update_with_switch(ctx, frame) {
                     self.state = next_state;
                 }

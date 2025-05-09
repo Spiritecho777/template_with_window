@@ -1,6 +1,6 @@
 use std::{rc::Rc,cell::RefCell};
-use eframe::{egui,egui::{Color32, Context,}, Frame};
-use crate::{app_manager::AppState, basewindow::BaseWindow, windows::first_window::FirstWindow};
+use eframe::{egui, egui::{Color32, Context,}, Frame};
+use crate::{app_manager::AppState, basewindow::BaseWindow, windows::{first_window::FirstWindow,positionnement::Positionnement}};
 
 pub struct SecondWindow {
     window_mod: BaseWindow,
@@ -13,23 +13,28 @@ impl SecondWindow {
 
         // Exemple : texte
         let text = Rc::new(RefCell::new(String::from("Eh oui sa marche")));
-        window_mod.add_label(text.clone());
+        window_mod.add_label(text.clone(),None);
 
         // Exemple : Textbox
         let textbox_filler = Rc::new(RefCell::new(String::from("test")));
-        window_mod.add_textbox(textbox_filler.clone());
+        window_mod.add_textbox(textbox_filler.clone(),None);
 
         // Exemple : bouton
         window_mod.add_button("Click", || {
             println!("Le test du click");
-        });
+        },None);
 
         // Changement de page grâce a AppManager
         let switch_state = Rc::new(RefCell::new(None));
         let switch_state_clone = switch_state.clone();
+        window_mod.add_button("Positionnement", move || {
+            *switch_state_clone.borrow_mut() = Some(AppState::Position(Positionnement::new()));
+        },None);
+        
+        let switch_state_clone = switch_state.clone();
         window_mod.add_button("Retour", move || {
             *switch_state_clone.borrow_mut() = Some(AppState::First(FirstWindow::new()));
-        });
+        },None);
 
         Self {
             window_mod,
