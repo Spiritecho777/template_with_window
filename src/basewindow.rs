@@ -254,12 +254,4 @@ impl BaseWindow {
         visuals.widgets.open = style.clone();
         //visuals.widgets.active = style.clone();
     }
-
-    /// Positionnement des control
-    pub fn add_floating_component<F>(&mut self, position:AnchorPosition, mut draw: F)
-    where
-        F: FnMut(&Context, &mut Ui) + 'static,
-    {
-        self.floating_components.push((position, Box::new(draw)));
-    }
 }

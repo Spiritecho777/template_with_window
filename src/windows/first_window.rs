@@ -53,7 +53,7 @@ impl FirstWindow{
         // Exemple : ajout d'image
         let image_path:&[u8] = include_bytes!("../../assets/ressources/test.png"); //changer le chemin selon l'image voulu 
         let texture = Rc::new(RefCell::new(None));
-        window_mod.add_image_viewer(image_path.clone(), texture.clone(),200,200,None); //definir la taille de l'image
+        window_mod.add_image_viewer(image_path, texture.clone(),200,200,None); //definir la taille de l'image
 
         // Changement de page grâce a AppManager
         let switch_state = Rc::new(RefCell::new(None));
