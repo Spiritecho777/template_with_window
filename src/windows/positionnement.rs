@@ -1,6 +1,7 @@
 use std::{rc::Rc,cell::RefCell};
 use eframe::{egui,egui::{Color32, Context,}, Frame};
-use crate::{app_manager::AppState, basewindow::{BaseWindow,AnchorPosition}, windows::second_window::SecondWindow};
+use eframe::egui::Pos2;
+use crate::{app_manager::AppState, basewindow::{BaseWindow, DynamicAnchor, DynamicAnchor::{Dynamic}}, windows::second_window::SecondWindow};
 
 pub struct Positionnement {
     window_mod: BaseWindow,
@@ -13,23 +14,30 @@ impl Positionnement {
 
         // Exemple : texte
         let text = Rc::new(RefCell::new(String::from("Voici le test de position")));
-        window_mod.add_label(text.clone(),Some(AnchorPosition::Center));
+        window_mod.add_label(text.clone(),Some(DynamicAnchor::named("Center")));
 
         // Exemple : Textbox
         let textbox_filler = Rc::new(RefCell::new(String::from("test")));
-        window_mod.add_textbox(textbox_filler.clone(),Some(AnchorPosition::BottomLeft));
+        window_mod.add_textbox(textbox_filler.clone(),Some(DynamicAnchor::named("BottomLeft")));
+
+        // Exemple : Textbox
+        let textbox_filler2 = Rc::new(RefCell::new(String::from("LETEST")));
+        window_mod.add_textbox(textbox_filler2.clone(),Some(Dynamic(Box::new(|ctx|{
+            let screen = ctx.screen_rect();
+            Pos2::new(screen.center().x - 50.0, screen.center().y + 70.0)
+        }))));
 
         // Exemple : bouton
         window_mod.add_button("Click", || {
             println!("Le test du click");
-        },Some(AnchorPosition::TopLeft));
+        },Some(DynamicAnchor::named("TopLeft")));
 
         // Changement de page grâce a AppManager
         let switch_state = Rc::new(RefCell::new(None));
         let switch_state_clone = switch_state.clone();
         window_mod.add_button("Retour", move || {
             *switch_state_clone.borrow_mut() = Some(AppState::Second(SecondWindow::new()));
-        },Some(AnchorPosition::BottomRight));
+        },Some(DynamicAnchor::named("BottomRight")));
 
         Self {
             window_mod,

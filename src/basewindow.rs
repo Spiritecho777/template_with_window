@@ -6,16 +6,12 @@ pub type ComponentFn = Box<dyn FnMut(&Context, &mut Ui)>;
 /// Fenêtre générique modulaire
 pub struct BaseWindow {
     pub flow_components: Vec<ComponentFn>,
-    pub floating_components: Vec<(AnchorPosition,ComponentFn)>,
+    pub floating_components: Vec<(DynamicAnchor,ComponentFn)>,
 }
 
-pub enum AnchorPosition{
-    TopLeft,
-    TopRight,
-    BottomLeft,
-    BottomRight,
-    Center,
-    Custom(Pos2),
+pub enum DynamicAnchor {
+    Static(Pos2),
+    Dynamic(Box<dyn Fn(&Context) -> Pos2>),
 }
 
 impl BaseWindow {
@@ -34,15 +30,10 @@ impl BaseWindow {
         });
 
         // Rendu des composants positionnés
-        let screen_rect = ctx.screen_rect();
-        for (position, component) in self.floating_components.iter_mut() {
-            let pos = match position {
-                AnchorPosition::TopLeft => Pos2::new(10.0, 10.0),
-                AnchorPosition::TopRight => Pos2::new(screen_rect.right() - 110.0, 10.0),
-                AnchorPosition::BottomLeft => Pos2::new(10.0, screen_rect.bottom() - 30.0),
-                AnchorPosition::BottomRight => Pos2::new(screen_rect.right() - 110.0, screen_rect.bottom() - 30.0),
-                AnchorPosition::Center => Pos2::new(screen_rect.center().x - 50.0, screen_rect.center().y - 10.0),
-                AnchorPosition::Custom(p) => *p,
+        for (anchor, component) in self.floating_components.iter_mut() {
+            let pos = match anchor {
+                DynamicAnchor::Static(p) => *p,
+                DynamicAnchor::Dynamic(f) => f(ctx),
             };
 
             egui::Area::new(egui::Id::new(format!("floating_{:?}", pos)))
@@ -54,7 +45,7 @@ impl BaseWindow {
     }
 
     /// Bouton
-    pub fn add_button<F>(&mut self, label: &str, mut on_click: F, position: Option<AnchorPosition>)
+    pub fn add_button<F>(&mut self, label: &str, mut on_click: F, position: Option<DynamicAnchor>)
     where
         F: FnMut() + 'static,
     {
@@ -81,7 +72,7 @@ impl BaseWindow {
     }
 
     /// Ajouter un label lié à une donnée dynamique
-    pub fn add_label(&mut self, text_ref: Rc<RefCell<String>>, position: Option<AnchorPosition>) {
+    pub fn add_label(&mut self, text_ref: Rc<RefCell<String>>, position: Option<DynamicAnchor>) {
         let comp: ComponentFn = Box::new(move |_ctx, ui| {
             let text = text_ref.borrow();
             let rich_text = egui::RichText::new(&*text)
@@ -99,7 +90,7 @@ impl BaseWindow {
     }
 
     /// Textbox
-    pub fn add_textbox(&mut self, text_ref: Rc<RefCell<String>>, position: Option<AnchorPosition>) {
+    pub fn add_textbox(&mut self, text_ref: Rc<RefCell<String>>, position: Option<DynamicAnchor>) {
         //self.components.push(Box::new(move |_ctx, ui| {
         let comp: ComponentFn = Box::new(move |_ctx, ui| {
             let mut text = text_ref.borrow_mut();
@@ -124,7 +115,7 @@ impl BaseWindow {
 }
 
     /// Checkbox
-    pub fn add_checkbox(&mut self, label: &str, value_ref: Rc<RefCell<bool>>, position: Option<AnchorPosition>) {
+    pub fn add_checkbox(&mut self, label: &str, value_ref: Rc<RefCell<bool>>, position: Option<DynamicAnchor>) {
         let label = label.to_string();
         let comp: ComponentFn = Box::new(move |_ctx, ui| {
             let mut value = value_ref.borrow_mut();
@@ -143,7 +134,7 @@ impl BaseWindow {
     }
 
     /// Slider
-    pub fn add_slider(&mut self, label: &str, value_ref: Rc<RefCell<i32>>,range:std::ops::RangeInclusive<i32>, position: Option<AnchorPosition>) {
+    pub fn add_slider(&mut self, label: &str, value_ref: Rc<RefCell<i32>>,range:std::ops::RangeInclusive<i32>, position: Option<DynamicAnchor>) {
         let label = label.to_string();
         let comp: ComponentFn = Box::new(move |_ctx, ui| {
             let mut value = value_ref.borrow_mut();
@@ -162,7 +153,7 @@ impl BaseWindow {
     }
     
     /// Combobox
-    pub fn add_combobox(&mut self, label: &str, selected: Rc<RefCell<String>>,options: Vec<Rc<String>>, position: Option<AnchorPosition>) {
+    pub fn add_combobox(&mut self, label: &str, selected: Rc<RefCell<String>>,options: Vec<Rc<String>>, position: Option<DynamicAnchor>) {
         let label = label.to_string();
         let comp: ComponentFn = Box::new(move |_ctx, ui| {
             let mut selected_val = selected.borrow_mut();
@@ -190,7 +181,7 @@ impl BaseWindow {
     }
     
     /// Barre de chargement
-    pub fn add_loading_bar(&mut self,progress:Rc<RefCell<f32>>, position: Option<AnchorPosition>){
+    pub fn add_loading_bar(&mut self,progress:Rc<RefCell<f32>>, position: Option<DynamicAnchor>){
         let comp: ComponentFn = Box::new(move |_ctx, ui| {
             let progress_value = *progress.borrow();
             ui.add(
@@ -208,7 +199,7 @@ impl BaseWindow {
     }
 
     /// Ajout d'image
-    pub fn add_image_viewer(&mut self,image_data: &'static[u8],texture:Rc<RefCell<Option<TextureHandle>>>,desired_width:u32,desired_height:u32, position: Option<AnchorPosition>){
+    pub fn add_image_viewer(&mut self,image_data: &'static[u8],texture:Rc<RefCell<Option<TextureHandle>>>,desired_width:u32,desired_height:u32, position: Option<DynamicAnchor>){
         let comp: ComponentFn = Box::new(move |ctx, ui| {
             if texture.borrow().is_none() {
                 if let Ok(image) = image::load_from_memory(image_data){
@@ -253,5 +244,27 @@ impl BaseWindow {
         visuals.widgets.hovered = style.clone();
         visuals.widgets.open = style.clone();
         //visuals.widgets.active = style.clone();
+    }
+}
+
+impl DynamicAnchor {
+    pub fn from_named_anchor(anchor: &str, ctx: &egui::Context) -> Pos2 {
+        let screen = ctx.screen_rect();
+        match anchor {
+            "TopLeft" => Pos2::new(10.0, 10.0),
+            "TopRight" => Pos2::new(screen.right() - 110.0, 10.0),
+            "BottomLeft" => Pos2::new(10.0, screen.bottom() - 30.0),
+            "BottomRight" => Pos2::new(screen.right() - 110.0, screen.bottom() - 30.0),
+            "Center" => Pos2::new(screen.center().x - 50.0, screen.center().y - 10.0),
+            _ => Pos2::new(0.0, 0.0), // fallback
+        }
+    }
+
+    pub fn named(name: &'static str) -> Self {
+        Self::Dynamic(Box::new(move |ctx| Self::from_named_anchor(name, ctx)))
+    }
+
+    pub fn custom(pos: Pos2) -> Self {
+        Self::Static(pos)
     }
 }
