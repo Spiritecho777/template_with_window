@@ -1,0 +1,26 @@
+[template]
+name = "template_with_window"
+description = "Template Rust avec fenêtre"
+version = "0.1.0"
+
+# Scripts
+[placeholders.include_optionnel_script]
+type = "bool"
+prompt = "Souhaitez-vous inclure le script Compile_To_Linux.ps1 ?"
+default = false
+
+[placeholders.include_default_script]
+type = "bool"
+prompt = "Souhaitez-vous inclure le script Connect_GitHub.sh ?"
+default = false
+
+# Configurations RustRover
+[placeholders.include_run_windows]
+type = "bool"
+prompt = "Souhaitez-vous inclure la configuration RustRover pour Windows ?"
+default = true
+
+[placeholders.include_run_linux]
+type = "bool"
+prompt = "Souhaitez-vous inclure la configuration RustRover pour Linux ?"
+default = false
