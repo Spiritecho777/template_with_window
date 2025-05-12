@@ -1,4 +1,4 @@
-#![cfg_attr(windows, windows_subsystem = "windows")] //Pour supprimer l'affichage de la console sur windows
+//#![cfg_attr(windows, windows_subsystem = "windows")] //Pour supprimer l'affichage de la console sur windows
 
 mod basewindow;
 mod windows;
