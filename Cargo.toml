@@ -1,7 +1,6 @@
 [package]
-name = "{{project-name}}"
+name = "template_with_window"
 version = "0.1.0"
-authors = ["{{authors}}"]
 edition = "2024"
 
 [dependencies]
