@@ -14,7 +14,7 @@ use crate::app_manager::AppManager;
 pub fn build_native_options() -> NativeOptions {
     //#[cfg(target_os = "windows")]
     //{
-    let image_bytes = include_bytes!("../assets/icon.png");
+    let image_bytes = include_bytes!("../ressources/icon.png");
     let image = image::load_from_memory(image_bytes).expect("Could not load image");
     let (width, height) = image.dimensions();
     let rgba = image.into_rgba8().into_raw();

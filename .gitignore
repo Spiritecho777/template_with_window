@@ -1,5 +1,5 @@
 /target
 /.idea
 Cargo.lock
-/assets/icon.png
-/assets/ressources/test.png
+/ressources/icon.png
+/ressources/assets/test.png

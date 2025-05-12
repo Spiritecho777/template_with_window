@@ -51,7 +51,7 @@ impl FirstWindow{
         window_mod.add_loading_bar(progress.clone(),None); // Voir dans update et dans struct
 
         // Exemple : ajout d'image
-        let image_path:&[u8] = include_bytes!("../../assets/ressources/test.png"); //changer le chemin selon l'image voulu 
+        let image_path:&[u8] = include_bytes!("../../ressources/assets/test.png"); //changer le chemin selon l'image voulu 
         let texture = Rc::new(RefCell::new(None));
         window_mod.add_image_viewer(image_path, texture.clone(),200,200,None); //definir la taille de l'image
 
