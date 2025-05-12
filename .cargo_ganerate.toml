@@ -2,9 +2,9 @@
 name = "template_with_window"
 description = "Template Rust avec fenêtre"
 version = "0.1.0"
-include = [
-    "assets/*.png",
-    "assets/ressources/*.png" # Inclure tous les fichiers PNG
+substitute-ignore = [
+    "assets/ressources/test.png",
+    "assets/icon.png"
 ]
 
 # Scripts
