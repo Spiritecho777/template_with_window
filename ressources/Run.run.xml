@@ -1,5 +1,4 @@
-<component name="RunManager" selected="Cargo.Run">
-  <configuration name="Run" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
+<configuration name="Run" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
     <option name="command" value="run --package RustKeyFinder --bin RustKeyFinder"/>
     <option name="workingDirectory" value="file://$PROJECT_DIR$"/>
     <envs/>
@@ -16,39 +15,3 @@
       <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true"/>
     </method>
   </configuration>
-  <configuration name="Compile linux" type="ShConfigurationType">
-    <option name="SCRIPT_TEXT" value=""/>
-    <option name="INDEPENDENT_SCRIPT_PATH" value="false"/>
-    <option name="SCRIPT_PATH" value="$PROJECT_DIR$/../../Script/Compile_To_Linux.ps1"/>
-    <option name="SCRIPT_OPTIONS" value=""/>
-    <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true"/>
-    <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$"/>
-    <option name="INDEPENDENT_INTERPRETER_PATH" value="false"/>
-    <option name="INTERPRETER_PATH" value="$PROJECT_DIR$/../../../../../../../WINDOWS/System32/WindowsPowerShell/v1.0/powershell.exe"/>
-    <option name="INTERPRETER_OPTIONS" value=""/>
-    <option name="EXECUTE_IN_TERMINAL" value="true"/>
-    <option name="EXECUTE_SCRIPT_FILE" value="true"/>
-    <envs/>
-    <method v="2"/>
-  </configuration>
-  <configuration name="GitHub" type="ShConfigurationType">
-    <option name="SCRIPT_TEXT" value=""/>
-    <option name="INDEPENDENT_SCRIPT_PATH" value="false"/>
-    <option name="SCRIPT_PATH" value="$PROJECT_DIR$/../../Script/Connect_GitHub.sh"/>
-    <option name="SCRIPT_OPTIONS" value="$(Split-Path -Leaf $PWD)"/>
-    <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true"/>
-    <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$"/>
-    <option name="INDEPENDENT_INTERPRETER_PATH" value="false"/>
-    <option name="INTERPRETER_PATH" value="$PROJECT_DIR$/../../../../../../../WINDOWS/System32/WindowsPowerShell/v1.0/powershell.exe"/>
-    <option name="INTERPRETER_OPTIONS" value=""/>
-    <option name="EXECUTE_IN_TERMINAL" value="true"/>
-    <option name="EXECUTE_SCRIPT_FILE" value="true"/>
-    <envs/>
-    <method v="2"/>
-  </configuration>
-  <list>
-    <item itemvalue="Cargo.Run"/>
-    <item itemvalue="Shell Script.Compile linux"/>
-    <item itemvalue="Shell Script.GitHub"/>
-  </list>
-</component>
