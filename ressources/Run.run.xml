@@ -17,7 +17,7 @@
             <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true"/>
         </method>
     </configuration>
-    <configuration name="Compile linux" type="ShConfigurationType">
+    <configuration name="Compile_To_Linux" type="ShConfigurationType">
         <option name="SCRIPT_TEXT" value=""/>
         <option name="INDEPENDENT_SCRIPT_PATH" value="false"/>
         <option name="SCRIPT_PATH" value="$PROJECT_DIR$/../../Script/Compile_To_Linux.ps1"/>
@@ -32,7 +32,7 @@
         <envs/>
         <method v="2"/>
     </configuration>
-    <configuration name="GitHub" type="ShConfigurationType">
+    <configuration name="GitHub_Windows" type="ShConfigurationType">
         <option name="SCRIPT_TEXT" value=""/>
         <option name="INDEPENDENT_SCRIPT_PATH" value="false"/>
         <option name="SCRIPT_PATH" value="$PROJECT_DIR$/../../Script/Connect_GitHub.sh"/>
@@ -47,9 +47,25 @@
         <envs/>
         <method v="2"/>
     </configuration>
+    <configuration name="GitHub_Linux" type="ShConfigurationType">
+        <option name="SCRIPT_TEXT" value=""/>
+        <option name="INDEPENDENT_SCRIPT_PATH" value="false"/>
+        <option name="SCRIPT_PATH" value="$PROJECT_DIR$/../../Script/Connect_GitHub.sh"/>
+        <option name="SCRIPT_OPTIONS" value="$(basename $PWD)"/>
+        <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true"/>
+        <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$"/>
+        <option name="INDEPENDENT_INTERPRETER_PATH" value="false"/>
+        <option name="INTERPRETER_PATH" value="/usr/bin/bash"/>
+        <option name="INTERPRETER_OPTIONS" value=""/>
+        <option name="EXECUTE_IN_TERMINAL" value="true"/>
+        <option name="EXECUTE_SCRIPT_FILE" value="true"/>
+        <envs/>
+        <method v="2"/>
+    </configuration>
     <list>
         <item itemvalue="Cargo.Run"/>
-        <item itemvalue="Shell Script.Compile linux"/>
-        <item itemvalue="Shell Script.GitHub"/>
+        <item itemvalue="Shell Script.Compile_To_linux"/>
+        <item itemvalue="Shell Script.GitHub_Windows"/>
+        <item itemvalue="Shell Script.GitHub_Linux"/>
     </list>
 </component>
