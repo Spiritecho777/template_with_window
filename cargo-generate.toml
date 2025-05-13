@@ -1,0 +1,4 @@
+[template]
+name = "nom-du-template"
+description = "Un projet Rust de base avec une image .png"
+exclude = ["ressources/assets/icon.png","ressources/assets/test.png"]
